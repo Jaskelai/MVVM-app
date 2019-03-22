@@ -22,6 +22,23 @@ android {
     }
 }
 
+detekt {
+    version = "1.0.0-RC12"
+    input = files("${project.rootDir}/${project.getName()}/src/main/java")
+    config = files("${project.rootDir}/detekt/detekt-config.yml")
+    filters = ".*test.*,.*/resources/.*,.*/tmp/.*"
+    reports {
+        xml {
+            enabled = true
+            destination = file("build/reports/detekt.xml")
+        }
+        html {
+            enabled = true
+            destination = file("build/reports/detekt.html")
+        }
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
