@@ -1,7 +1,8 @@
-package com.github.kornilovmikhail.mvvmandroidproject
+package com.github.kornilovmikhail.mvvmandroidproject.data
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.github.kornilovmikhail.mvvmandroidproject.R
 
 class MainActivity : AppCompatActivity() {
 
