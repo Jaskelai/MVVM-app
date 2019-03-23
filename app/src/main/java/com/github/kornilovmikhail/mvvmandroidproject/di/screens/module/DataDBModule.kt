@@ -1,11 +1,11 @@
-package com.github.kornilovmikhail.mvvmandroidproject.di.module
+package com.github.kornilovmikhail.mvvmandroidproject.di.screens.module
 
 import android.content.Context
 import androidx.room.Room
 import com.github.kornilovmikhail.mvvmandroidproject.data.local.AbstractNewsDatabase
 import com.github.kornilovmikhail.mvvmandroidproject.data.local.dao.NewsDao
 import com.github.kornilovmikhail.mvvmandroidproject.data.repository.NewsLocalRepository
-import com.github.kornilovmikhail.mvvmandroidproject.di.scope.NewsScope
+import com.github.kornilovmikhail.mvvmandroidproject.di.screens.scope.NewsScope
 import dagger.Module
 import dagger.Provides
 

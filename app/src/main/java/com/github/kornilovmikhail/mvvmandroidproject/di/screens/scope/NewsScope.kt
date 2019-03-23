@@ -1,4 +1,4 @@
-package com.github.kornilovmikhail.mvvmandroidproject.di.scope
+package com.github.kornilovmikhail.mvvmandroidproject.di.screens.scope
 
 import javax.inject.Scope
 
