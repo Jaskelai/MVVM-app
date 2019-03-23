@@ -6,6 +6,6 @@ import com.github.kornilovmikhail.mvvmandroidproject.data.local.dao.NewsDao
 import com.github.kornilovmikhail.mvvmandroidproject.data.local.model.NewsDB
 
 @Database(entities = [NewsDB::class], version = 1)
-abstract class AbstractBreedDatabase : RoomDatabase() {
+abstract class AbstractNewsDatabase : RoomDatabase() {
     abstract fun newsDao(): NewsDao
 }

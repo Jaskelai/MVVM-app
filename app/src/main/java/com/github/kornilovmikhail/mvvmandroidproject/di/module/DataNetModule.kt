@@ -2,6 +2,7 @@ package com.github.kornilovmikhail.mvvmandroidproject.di.module
 
 import com.github.kornilovmikhail.mvvmandroidproject.data.network.NewsApi
 import com.github.kornilovmikhail.mvvmandroidproject.data.network.interceptor.ApiKeyInterceptor
+import com.github.kornilovmikhail.mvvmandroidproject.data.repository.NewsNetworkRepository
 import com.github.kornilovmikhail.mvvmandroidproject.di.scope.NewsScope
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -30,6 +31,10 @@ class DataNetModule {
     @Provides
     @NewsScope
     fun provideNewsAPI(retrofit: Retrofit): NewsApi = retrofit.create(NewsApi::class.java)
+
+    @Provides
+    @NewsScope
+    fun provideNewsNetworkRepository(newsApi: NewsApi): NewsNetworkRepository = NewsNetworkRepository(newsApi)
 
     @Provides
     @NewsScope
