@@ -10,19 +10,15 @@ class TopNewsInteractor(private val newsRepository: NewsRepository) {
     fun getTopNews(): Single<List<News>> = newsRepository.getTopNews()
         .subscribeOn(Schedulers.io())
 
-    fun cacheTopNews(newsList: List<News>) {
+    fun cacheTopNews(newsList: List<News>): Completable =
         Completable.fromAction {
             newsRepository.cacheTopNews(newsList)
         }.subscribeOn(Schedulers.io())
-            .subscribe()
-    }
 
-    fun deleteTopNews() {
+    fun deleteTopNews(): Completable =
         Completable.fromAction {
             newsRepository.deleteTopEvents()
         }.subscribeOn(Schedulers.io())
-            .subscribe()
-    }
 
     fun getNews(id: Int): Single<News> = newsRepository.getNewsById(id)
         .subscribeOn(Schedulers.io())

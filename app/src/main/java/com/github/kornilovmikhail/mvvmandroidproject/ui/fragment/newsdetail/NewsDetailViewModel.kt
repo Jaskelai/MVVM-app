@@ -25,12 +25,9 @@ class NewsDetailViewModel(private val topNewsInteractor: TopNewsInteractor) : Vi
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onSuccess = {
-                    println(it)
                     newsLiveData.value = it
-                    isSuccess.value = true
                 },
                 onError = {
-                    println("ERROR")
                     isSuccess.value = false
                 }
             )

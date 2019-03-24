@@ -15,7 +15,6 @@ class NewsListViewModel(private val topNewsInteractor: TopNewsInteractor) : View
     val inProgressLiveData = MutableLiveData<Int>()
     var isSuccessLiveData = MutableLiveData<Boolean>()
     private var disposable: Disposable? = null
-    private val isFirst = true
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun getNewsList() {
@@ -29,8 +28,25 @@ class NewsListViewModel(private val topNewsInteractor: TopNewsInteractor) : View
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onSuccess = {
-                    topNewsInteractor.deleteTopNews()
-                    topNewsInteractor.cacheTopNews(it)
+                    topNewsInteractor.deleteTopNews().subscribe {
+                        topNewsInteractor.cacheTopNews(it).subscribe {
+                            getNewsWithId()
+                        }
+                    }
+                    isSuccessLiveData.value = true
+                },
+                onError = {
+                    isSuccessLiveData.value = false
+                }
+            )
+    }
+
+    private fun getNewsWithId() {
+        disposable = topNewsInteractor.getTopNews()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy(
+                onSuccess = {
+                    newsLiveData.value = it
                     isSuccessLiveData.value = true
                 },
                 onError = {

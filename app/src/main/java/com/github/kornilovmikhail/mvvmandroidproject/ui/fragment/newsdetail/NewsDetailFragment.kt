@@ -71,7 +71,6 @@ class NewsDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         newsDetailViewModel = ViewModelProviders.of(this, viewModelFactory).get(NewsDetailViewModel::class.java)
         newsDetailViewModel.getNews(arguments?.get(KEY_NEWS_ID) as Int)
-        println(arguments?.get(KEY_NEWS_ID) as Int)
         observeNewsDetailData()
         observeInProgress()
         observeIsSuccess()
@@ -79,7 +78,6 @@ class NewsDetailFragment : Fragment() {
 
     private fun observeNewsDetailData() {
         newsDetailViewModel.newsLiveData.observe(this, Observer {
-            println(it)
             tv_detail_description.text = it.description
         })
     }
