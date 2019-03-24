@@ -12,6 +12,7 @@ import io.reactivex.schedulers.Schedulers
 class NewsListViewModel(private val newsRepository: NewsRepository) : ViewModel(), LifecycleObserver {
     val newsLiveData = MutableLiveData<List<News>>()
     val inProgress = MutableLiveData<Int>()
+    var isSuccess = MutableLiveData<Boolean>()
     private var disposable: Disposable? = null
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
@@ -28,9 +29,10 @@ class NewsListViewModel(private val newsRepository: NewsRepository) : ViewModel(
             .subscribeBy(
                 onSuccess = {
                     newsLiveData.value = it
+                    isSuccess.value = true
                 },
                 onError = {
-
+                    isSuccess.value = false
                 }
             )
     }

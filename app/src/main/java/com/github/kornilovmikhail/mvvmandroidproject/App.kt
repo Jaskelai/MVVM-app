@@ -5,15 +5,12 @@ import com.github.kornilovmikhail.mvvmandroidproject.di.application.component.Ap
 import com.github.kornilovmikhail.mvvmandroidproject.di.application.module.ApplicationModule
 import com.github.kornilovmikhail.mvvmandroidproject.di.application.component.DaggerAppComponent
 
+
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
         appComponent = DaggerAppComponent.builder()
-            .applicationModule(
-                ApplicationModule(
-                    this
-                )
-            )
+            .applicationModule(ApplicationModule(this))
             .build()
     }
 

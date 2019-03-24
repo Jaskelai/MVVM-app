@@ -5,6 +5,6 @@ import io.reactivex.Single
 import retrofit2.http.GET
 
 interface NewsApi {
-    @GET("top-headlines?country=us")
+    @GET("top-headlines?country=ru")
     fun loadTopHeadlines(): Single<NewsApiResponse>
 }

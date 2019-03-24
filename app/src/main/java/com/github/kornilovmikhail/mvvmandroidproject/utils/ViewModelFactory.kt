@@ -1,4 +1,4 @@
-package com.github.kornilovmikhail.mvvmandroidproject.ui.fragment.newslist
+package com.github.kornilovmikhail.mvvmandroidproject.utils
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

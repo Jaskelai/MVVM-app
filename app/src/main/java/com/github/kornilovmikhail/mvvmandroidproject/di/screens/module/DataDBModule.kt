@@ -1,7 +1,6 @@
 package com.github.kornilovmikhail.mvvmandroidproject.di.screens.module
 
 import android.app.Application
-import android.content.Context
 import androidx.room.Room
 import com.github.kornilovmikhail.mvvmandroidproject.data.local.AbstractNewsDatabase
 import com.github.kornilovmikhail.mvvmandroidproject.data.local.dao.NewsDao
