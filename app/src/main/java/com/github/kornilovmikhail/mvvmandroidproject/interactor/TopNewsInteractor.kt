@@ -7,10 +7,8 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 
 class TopNewsInteractor(private val newsRepository: NewsRepository) {
-    fun getTopNews(): Single<List<News>> {
-        return newsRepository.getTopNews()
-            .subscribeOn(Schedulers.io())
-    }
+    fun getTopNews(): Single<List<News>> = newsRepository.getTopNews()
+        .subscribeOn(Schedulers.io())
 
     fun cacheTopNews(newsList: List<News>) {
         Completable.fromAction {
@@ -25,4 +23,7 @@ class TopNewsInteractor(private val newsRepository: NewsRepository) {
         }.subscribeOn(Schedulers.io())
             .subscribe()
     }
+
+    fun getNews(id: Int): Single<News> = newsRepository.getNewsById(id)
+        .subscribeOn(Schedulers.io())
 }

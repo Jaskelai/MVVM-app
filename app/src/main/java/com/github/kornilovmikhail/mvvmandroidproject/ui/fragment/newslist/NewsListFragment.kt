@@ -19,7 +19,6 @@ import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.DataNetMo
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.NewsModule
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.ViewModelModule
 import com.github.kornilovmikhail.mvvmandroidproject.model.News
-import com.github.kornilovmikhail.mvvmandroidproject.ui.fragment.newsdetail.NewsDetailFragment
 import com.github.kornilovmikhail.mvvmandroidproject.utils.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_news_list.*
 import javax.inject.Inject
@@ -68,20 +67,19 @@ class NewsListFragment : Fragment() {
             if (rv_list_news.adapter == null) {
                 rv_list_news.adapter = NewsListAdapter(newsClickListener)
                 rv_list_news.layoutManager = LinearLayoutManager(context)
-                println(it)
             }
             (rv_list_news.adapter as NewsListAdapter).submitList(it)
         })
     }
 
     private fun observeInProgress() {
-        newsListViewModel.inProgress.observe(
+        newsListViewModel.inProgressLiveData.observe(
             this,
             Observer { it?.let { list_progressBar.visibility = it } })
     }
 
     private fun observeIsSuccess() {
-        newsListViewModel.isSuccess.observe(this, Observer {
+        newsListViewModel.isSuccessLiveData.observe(this, Observer {
             if (it) {
                 makeToast(getString(R.string.server_load_success))
             } else {

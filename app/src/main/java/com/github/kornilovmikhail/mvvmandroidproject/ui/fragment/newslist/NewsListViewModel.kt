@@ -12,29 +12,29 @@ import io.reactivex.rxkotlin.subscribeBy
 
 class NewsListViewModel(private val topNewsInteractor: TopNewsInteractor) : ViewModel(), LifecycleObserver {
     val newsLiveData = MutableLiveData<List<News>>()
-    val inProgress = MutableLiveData<Int>()
-    var isSuccess = MutableLiveData<Boolean>()
+    val inProgressLiveData = MutableLiveData<Int>()
+    var isSuccessLiveData = MutableLiveData<Boolean>()
     private var disposable: Disposable? = null
+    private val isFirst = true
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun getNews() {
+    fun getNewsList() {
         disposable = topNewsInteractor.getTopNews()
             .doOnSubscribe {
-                inProgress.postValue(View.VISIBLE)
+                inProgressLiveData.postValue(View.VISIBLE)
             }
             .doAfterTerminate {
-                inProgress.postValue(View.INVISIBLE)
+                inProgressLiveData.postValue(View.INVISIBLE)
             }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onSuccess = {
                     topNewsInteractor.deleteTopNews()
                     topNewsInteractor.cacheTopNews(it)
-                    newsLiveData.value = it
-                    isSuccess.value = true
+                    isSuccessLiveData.value = true
                 },
                 onError = {
-                    isSuccess.value = false
+                    isSuccessLiveData.value = false
                 }
             )
     }
