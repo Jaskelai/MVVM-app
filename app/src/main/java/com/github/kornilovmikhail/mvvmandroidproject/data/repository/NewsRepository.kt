@@ -18,6 +18,8 @@ class NewsRepository(
         }
     }
 
+    fun getNewsById(id: Int): Single<News> = newsLocalRepository.findNewsById(id)
+
     fun cacheTopNews(newsList: List<News>) {
         newsLocalRepository.cacheTopNews(newsList)
     }

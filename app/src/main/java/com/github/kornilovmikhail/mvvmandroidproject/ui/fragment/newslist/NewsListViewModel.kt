@@ -1,9 +1,11 @@
 package com.github.kornilovmikhail.mvvmandroidproject.ui.fragment.newslist
 
 import android.view.View
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.*
 import com.github.kornilovmikhail.mvvmandroidproject.interactor.TopNewsInteractor
 import com.github.kornilovmikhail.mvvmandroidproject.model.News
+import com.github.kornilovmikhail.mvvmandroidproject.ui.fragment.newsdetail.NewsDetailFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
@@ -41,7 +43,7 @@ class NewsListViewModel(private val topNewsInteractor: TopNewsInteractor) : View
         disposable?.dispose()
     }
 
-    fun openNews() {
-
+    fun openNews(supportFragmentManager: FragmentManager?, id: Int) {
+        NewsDetailFragment.start(supportFragmentManager, id)
     }
 }

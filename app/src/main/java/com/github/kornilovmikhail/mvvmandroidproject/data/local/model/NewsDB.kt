@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class NewsDB(
     @ColumnInfo(index = true)
     @PrimaryKey(autoGenerate = true)
-    val id: Int?,
+    val id: Int,
 
     val author: String?,
 

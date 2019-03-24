@@ -10,11 +10,14 @@ import io.reactivex.Single
 @Dao
 interface NewsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertEvents(events: List<NewsDB>)
+    fun insertNewsList(news: List<NewsDB>)
 
     @Query("SELECT * FROM news_data")
-    fun getEvents(): Single<List<NewsDB>>
+    fun getNewsList(): Single<List<NewsDB>>
+
+    @Query("SELECT * FROM news_data WHERE id = :id")
+    fun findNewsById(id: Int): Single<NewsDB>
 
     @Query("DELETE FROM news_data")
-    fun deleteEvents()
+    fun deleteAllNews()
 }

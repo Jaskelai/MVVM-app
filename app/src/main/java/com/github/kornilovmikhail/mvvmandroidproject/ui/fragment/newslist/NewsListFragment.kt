@@ -19,6 +19,7 @@ import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.DataNetMo
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.NewsModule
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.ViewModelModule
 import com.github.kornilovmikhail.mvvmandroidproject.model.News
+import com.github.kornilovmikhail.mvvmandroidproject.ui.fragment.newsdetail.NewsDetailFragment
 import com.github.kornilovmikhail.mvvmandroidproject.utils.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_news_list.*
 import javax.inject.Inject
@@ -27,6 +28,12 @@ class NewsListFragment : Fragment() {
     private lateinit var newsListViewModel: NewsListViewModel
     @Inject
     lateinit var viewModelFactory: ViewModelFactory<NewsListViewModel>
+
+    companion object {
+        fun newInstance(): NewsListFragment {
+            return NewsListFragment()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         DaggerNewsComponent.builder()
@@ -88,12 +95,6 @@ class NewsListFragment : Fragment() {
     }
 
     private val newsClickListener: (News) -> Unit = {
-        newsListViewModel.openNews()
-    }
-
-    companion object {
-        fun newInstance(): NewsListFragment {
-            return NewsListFragment()
-        }
+        newsListViewModel.openNews(activity?.supportFragmentManager, it.id)
     }
 }

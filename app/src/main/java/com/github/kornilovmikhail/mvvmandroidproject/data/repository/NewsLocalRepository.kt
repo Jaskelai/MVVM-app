@@ -7,16 +7,17 @@ import com.github.kornilovmikhail.mvvmandroidproject.model.News
 import io.reactivex.Single
 
 class NewsLocalRepository(private val newsDao: NewsDao) {
-    fun getTopNews(): Single<List<News>> {
-        return newsDao.getEvents()
-            .map { it.map { mapNewsDBToNews(it) } }
-    }
+    fun getTopNews(): Single<List<News>> = newsDao.getNewsList()
+        .map { it.map { mapNewsDBToNews(it) } }
 
     fun cacheTopNews(newsList: List<News>) {
-        newsDao.insertEvents(newsList.map { mapNewsToNewsDB(it) })
+        newsDao.insertNewsList(newsList.map { mapNewsToNewsDB(it) })
     }
 
     fun deleteTopNews() {
-        newsDao.deleteEvents()
+        newsDao.deleteAllNews()
     }
+
+    fun findNewsById(id: Int): Single<News> = newsDao.findNewsById(id)
+        .map { mapNewsDBToNews(it) }
 }
