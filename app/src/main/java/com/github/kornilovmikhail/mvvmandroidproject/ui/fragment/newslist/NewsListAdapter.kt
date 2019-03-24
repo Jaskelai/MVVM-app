@@ -12,8 +12,7 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.news_list_item.view.*
 
 class NewsListAdapter(
-    private val news: List<News>,
-    private val eventLambda: (Int) -> Unit
+    private val clickListener: (News) -> Unit
 ) : ListAdapter<News, NewsListAdapter.NewsHolder>(NewsDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, type: Int): NewsHolder {
@@ -21,13 +20,8 @@ class NewsListAdapter(
         return NewsHolder(view)
     }
 
-    override fun getItemCount(): Int = news.size
-
     override fun onBindViewHolder(holder: NewsHolder, position: Int) {
-        holder.bind(news[position].title)
-        holder.itemView.setOnClickListener {
-            eventLambda.invoke(position)
-        }
+        holder.bind(getItem(position), clickListener)
     }
 
     override fun submitList(list: List<News>?) {
@@ -44,8 +38,11 @@ class NewsListAdapter(
     class NewsHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
         LayoutContainer {
 
-        fun bind(eventName: String) {
-            containerView.tv_list_item_name.text = eventName
+        fun bind(news: News, clickListener: (News) -> Unit) {
+            with(containerView) {
+                tv_list_item_name.text = news.title
+                setOnClickListener { clickListener(news) }
+            }
         }
     }
 }

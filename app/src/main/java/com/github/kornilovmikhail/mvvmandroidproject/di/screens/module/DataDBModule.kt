@@ -1,5 +1,6 @@
 package com.github.kornilovmikhail.mvvmandroidproject.di.screens.module
 
+import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.github.kornilovmikhail.mvvmandroidproject.data.local.AbstractNewsDatabase
@@ -17,15 +18,15 @@ class DataDBModule {
 
     @Provides
     @NewsScope
-    fun provideNewsDatabase(context: Context): AbstractNewsDatabase = Room.databaseBuilder(
-        context,
+    fun provideNewsDatabase(app: Application): AbstractNewsDatabase = Room.databaseBuilder(
+        app,
         AbstractNewsDatabase::class.java,
         DATABASE_NAME
     ).build()
 
     @Provides
     @NewsScope
-    fun provideNewsDao(newsDatabase: AbstractNewsDatabase): NewsDao = newsDatabase.newsDao()
+    fun provideNewsDao(database: AbstractNewsDatabase): NewsDao = database.newsDao()
 
     @Provides
     @NewsScope

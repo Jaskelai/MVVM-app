@@ -1,28 +1,30 @@
 package com.github.kornilovmikhail.mvvmandroidproject.ui.fragment.newslist
 
 import android.view.View
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.github.kornilovmikhail.mvvmandroidproject.data.repository.NewsRepository
 import com.github.kornilovmikhail.mvvmandroidproject.model.News
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 
-class NewsListViewModel(private val newsRepository: NewsRepository) : ViewModel() {
+class NewsListViewModel(private val newsRepository: NewsRepository) : ViewModel(), LifecycleObserver {
     val newsLiveData = MutableLiveData<List<News>>()
     val inProgress = MutableLiveData<Int>()
+    private var disposable: Disposable? = null
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun getNews() {
-        newsRepository.getTopNews()
+        disposable = newsRepository.getTopNews()
             .doOnSubscribe {
-                inProgress.value = View.VISIBLE
+                inProgress.postValue(View.VISIBLE)
             }
             .doAfterTerminate {
-                inProgress.value = View.INVISIBLE
+                inProgress.postValue(View.INVISIBLE)
             }
-            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
             .subscribeBy(
                 onSuccess = {
                     newsLiveData.value = it
@@ -31,6 +33,10 @@ class NewsListViewModel(private val newsRepository: NewsRepository) : ViewModel(
 
                 }
             )
+    }
+
+    override fun onCleared() {
+        disposable?.dispose()
     }
 
     fun openNews() {

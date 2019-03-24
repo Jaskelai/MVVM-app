@@ -4,6 +4,7 @@ import com.github.kornilovmikhail.mvvmandroidproject.data.repository.NewsLocalRe
 import com.github.kornilovmikhail.mvvmandroidproject.data.repository.NewsNetworkRepository
 import com.github.kornilovmikhail.mvvmandroidproject.data.repository.NewsRepository
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.scope.NewsScope
+import com.github.kornilovmikhail.mvvmandroidproject.ui.fragment.newslist.NewsListViewModel
 import dagger.Module
 import dagger.Provides
 

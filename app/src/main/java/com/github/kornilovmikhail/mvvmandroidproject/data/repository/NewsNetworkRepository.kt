@@ -9,7 +9,7 @@ class NewsNetworkRepository(private val newsApi: NewsApi) {
     fun getTopNews(): Single<List<News>> {
         return newsApi
             .loadTopHeadlines()
-            .map { it.newsRemoteList}
+            .map { it.newsRemoteList }
             .map { it.map { mapNewsRemoteToNews(it) } }
     }
 }

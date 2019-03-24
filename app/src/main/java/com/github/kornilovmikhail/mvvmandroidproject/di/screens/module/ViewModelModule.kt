@@ -10,5 +10,5 @@ import dagger.Provides
 class ViewModelModule {
     @Provides
     @NewsScope
-    fun provideNewsListViewModule(newsRepository: NewsRepository): NewsListViewModel = NewsListViewModel(newsRepository)
+    fun provideNewsListViewModel(newsRepository: NewsRepository) = NewsListViewModel(newsRepository)
 }
