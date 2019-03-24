@@ -6,10 +6,14 @@ import com.github.kornilovmikhail.mvvmandroidproject.model.News
 
 
 fun mapNewsRemoteToNews(newsRemote: NewsRemote): News = with(newsRemote) {
-    News(author, title, description, url, urlToImage, publishedAt, content)
+    News(null, author, title, description, url, urlToImage, publishedAt, content)
 }
 
 
 fun mapNewsDBToNews(newsDB: NewsDB): News = with(newsDB) {
-    News(author, title, description, url, urlToImage, publishedAt, content)
+    News(id, author, title, description, url, urlToImage, publishedAt, content)
+}
+
+fun mapNewsToNewsDB(news: News): NewsDB = with(news) {
+    NewsDB(null , author, title, description, url, urlToImage, publishedAt, content)
 }

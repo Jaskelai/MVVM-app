@@ -4,7 +4,7 @@ import com.github.kornilovmikhail.mvvmandroidproject.data.repository.NewsLocalRe
 import com.github.kornilovmikhail.mvvmandroidproject.data.repository.NewsNetworkRepository
 import com.github.kornilovmikhail.mvvmandroidproject.data.repository.NewsRepository
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.scope.NewsScope
-import com.github.kornilovmikhail.mvvmandroidproject.ui.fragment.newslist.NewsListViewModel
+import com.github.kornilovmikhail.mvvmandroidproject.interactor.TopNewsInteractor
 import dagger.Module
 import dagger.Provides
 
@@ -16,4 +16,8 @@ class NewsModule {
         newsLocalRepository: NewsLocalRepository,
         newsNetworkRepository: NewsNetworkRepository
     ): NewsRepository = NewsRepository(newsNetworkRepository, newsLocalRepository)
+
+    @Provides
+    @NewsScope
+    fun provideNewsInteractor(newsRepository: NewsRepository): TopNewsInteractor = TopNewsInteractor(newsRepository)
 }

@@ -1,6 +1,7 @@
 package com.github.kornilovmikhail.mvvmandroidproject.model
 
 data class News(
+    val id: Int?,
     val author: String?,
     val title: String,
     val description: String?,

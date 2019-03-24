@@ -8,21 +8,21 @@ import androidx.room.PrimaryKey
 data class NewsDB(
     @ColumnInfo(index = true)
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Int?,
 
-    val author: String,
+    val author: String?,
 
     val title: String,
 
-    val description: String,
+    val description: String?,
 
     val url: String,
 
     @ColumnInfo(name = "url_to_image")
-    val urlToImage: String,
+    val urlToImage: String?,
 
     @ColumnInfo(name = "published_at")
     val publishedAt: String,
 
-    val content: String
+    val content: String?
 )

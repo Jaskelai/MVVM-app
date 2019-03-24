@@ -12,7 +12,7 @@ import dagger.Provides
 @Module
 class DataDBModule {
     companion object {
-        private const val DATABASE_NAME = "news_db"
+        private const val DATABASE_NAME = "news_db.db"
     }
 
     @Provides

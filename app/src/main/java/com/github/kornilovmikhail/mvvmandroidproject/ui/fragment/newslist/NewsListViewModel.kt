@@ -2,14 +2,13 @@ package com.github.kornilovmikhail.mvvmandroidproject.ui.fragment.newslist
 
 import android.view.View
 import androidx.lifecycle.*
-import com.github.kornilovmikhail.mvvmandroidproject.data.repository.NewsRepository
+import com.github.kornilovmikhail.mvvmandroidproject.interactor.TopNewsInteractor
 import com.github.kornilovmikhail.mvvmandroidproject.model.News
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.schedulers.Schedulers
 
-class NewsListViewModel(private val newsRepository: NewsRepository) : ViewModel(), LifecycleObserver {
+class NewsListViewModel(private val topNewsInteractor: TopNewsInteractor) : ViewModel(), LifecycleObserver {
     val newsLiveData = MutableLiveData<List<News>>()
     val inProgress = MutableLiveData<Int>()
     var isSuccess = MutableLiveData<Boolean>()
@@ -17,7 +16,7 @@ class NewsListViewModel(private val newsRepository: NewsRepository) : ViewModel(
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun getNews() {
-        disposable = newsRepository.getTopNews()
+        disposable = topNewsInteractor.getTopNews()
             .doOnSubscribe {
                 inProgress.postValue(View.VISIBLE)
             }
@@ -25,9 +24,10 @@ class NewsListViewModel(private val newsRepository: NewsRepository) : ViewModel(
                 inProgress.postValue(View.INVISIBLE)
             }
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
             .subscribeBy(
                 onSuccess = {
+                    topNewsInteractor.deleteTopNews()
+                    topNewsInteractor.cacheTopNews(it)
                     newsLiveData.value = it
                     isSuccess.value = true
                 },
