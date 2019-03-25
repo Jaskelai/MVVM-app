@@ -24,7 +24,6 @@ import javax.inject.Inject
 import kotlin.properties.Delegates
 import com.github.kornilovmikhail.mvvmandroidproject.R
 
-
 class NewsListFragment : Fragment() {
     private var newsListViewModel: NewsListViewModel by Delegates.notNull()
     @Inject
