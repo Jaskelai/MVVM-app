@@ -1,8 +1,9 @@
-package com.github.kornilovmikhail.mvvmandroidproject.di.screens.module
+package com.github.kornilovmikhail.mvvmandroidproject.di.application.module
 
 import com.github.kornilovmikhail.mvvmandroidproject.data.network.NewsApi
 import com.github.kornilovmikhail.mvvmandroidproject.data.network.interceptor.ApiKeyInterceptor
-import com.github.kornilovmikhail.mvvmandroidproject.di.screens.scope.NewsScope
+import com.github.kornilovmikhail.mvvmandroidproject.data.repository.NewsNetworkRepository
+import com.github.kornilovmikhail.mvvmandroidproject.di.application.scope.ApplicationScope
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -17,7 +18,7 @@ class DataNetModule {
     }
 
     @Provides
-    @NewsScope
+    @ApplicationScope
     fun provideRetrofit(
         gsonConverterFactory: GsonConverterFactory,
         rxJava2CallAdapterFactory: RxJava2CallAdapterFactory,
@@ -30,23 +31,23 @@ class DataNetModule {
         .build()
 
     @Provides
-    @NewsScope
+    @ApplicationScope
     fun provideNewsAPI(retrofit: Retrofit): NewsApi = retrofit.create(NewsApi::class.java)
 
     @Provides
-    @NewsScope
+    @ApplicationScope
     fun provideOkHttpClient(apiKeyInterceptor: ApiKeyInterceptor): OkHttpClient =
         OkHttpClient.Builder().addInterceptor(apiKeyInterceptor).build()
 
     @Provides
-    @NewsScope
+    @ApplicationScope
     fun provideApiKeyInterceptor(): ApiKeyInterceptor = ApiKeyInterceptor.instance
 
     @Provides
-    @NewsScope
+    @ApplicationScope
     fun provideGsonConverterFactory(): GsonConverterFactory = GsonConverterFactory.create()
 
     @Provides
-    @NewsScope
+    @ApplicationScope
     fun provideRxJava2CallAdapterFactory(): RxJava2CallAdapterFactory = RxJava2CallAdapterFactory.create()
 }

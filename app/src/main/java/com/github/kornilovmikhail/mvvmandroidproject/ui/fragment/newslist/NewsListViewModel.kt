@@ -47,7 +47,6 @@ class NewsListViewModel(private val topNewsInteractor: TopNewsInteractor) : View
             .subscribeBy(
                 onSuccess = {
                     newsLiveData.value = it
-                    isSuccessLiveData.value = true
                 },
                 onError = {
                     isSuccessLiveData.value = false

@@ -12,14 +12,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.github.kornilovmikhail.mvvmandroidproject.App
 
-import com.github.kornilovmikhail.mvvmandroidproject.R
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.component.DaggerNewsComponent
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.DataDBModule
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.NewsModule
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.ViewModelModule
 import com.github.kornilovmikhail.mvvmandroidproject.utils.ViewModelFactory
-import kotlinx.android.synthetic.main.fragment_news_detail.*
+import kotlinx.android.synthetic.main.fragment_news_details.*
 import javax.inject.Inject
+import androidx.databinding.DataBindingUtil
+import com.github.kornilovmikhail.mvvmandroidproject.R
+import com.squareup.picasso.Picasso
 
 
 class NewsDetailFragment : Fragment() {
@@ -54,7 +56,6 @@ class NewsDetailFragment : Fragment() {
             .viewModelModule(ViewModelModule())
             .build()
             .inject(this)
-
         super.onCreate(savedInstanceState)
     }
 
@@ -62,7 +63,7 @@ class NewsDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_news_detail, container, false)
+        return inflater.inflate(R.layout.fragment_news_details, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,6 +78,11 @@ class NewsDetailFragment : Fragment() {
     private fun observeNewsDetailData() {
         newsDetailViewModel?.newsLiveData?.observe(this, Observer {
             tv_detail_description.text = it.description
+            activity?.let { activity ->
+                Picasso.get()
+                    .load(it.urlToImage)
+                    .into(iv_details_image)
+            }
         })
     }
 
