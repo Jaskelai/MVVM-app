@@ -1,27 +1,24 @@
 package com.github.kornilovmikhail.mvvmandroidproject.ui.fragment.newsdetail
 
-
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.github.kornilovmikhail.mvvmandroidproject.App
-
 import com.github.kornilovmikhail.mvvmandroidproject.R
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.component.DaggerNewsComponent
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.DataDBModule
-import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.DataNetModule
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.NewsModule
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.ViewModelModule
 import com.github.kornilovmikhail.mvvmandroidproject.utils.ViewModelFactory
-import kotlinx.android.synthetic.main.fragment_news_detail.*
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_news_details.*
 import javax.inject.Inject
-
 
 class NewsDetailFragment : Fragment() {
     private lateinit var newsDetailViewModel: NewsDetailViewModel
@@ -50,7 +47,6 @@ class NewsDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         DaggerNewsComponent.builder()
             .appComponent(App.getAppComponents())
-            .dataNetModule(DataNetModule())
             .dataDBModule(DataDBModule())
             .newsModule(NewsModule())
             .viewModelModule(ViewModelModule())
@@ -64,7 +60,7 @@ class NewsDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_news_detail, container, false)
+        return inflater.inflate(R.layout.fragment_news_details, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -81,6 +77,11 @@ class NewsDetailFragment : Fragment() {
         newsDetailViewModel.newsLiveData.observe(this, Observer {
             println(it)
             tv_detail_description.text = it.description
+            activity?.let {activity->
+                Picasso.with(activity)
+                    .load(it.urlToImage)
+                    .into(iv_detail_image)
+            }
         })
     }
 

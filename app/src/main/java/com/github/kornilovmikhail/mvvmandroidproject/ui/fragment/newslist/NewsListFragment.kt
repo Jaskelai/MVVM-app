@@ -13,11 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.kornilovmikhail.mvvmandroidproject.App
 
 import com.github.kornilovmikhail.mvvmandroidproject.R
+import com.github.kornilovmikhail.mvvmandroidproject.di.application.module.DataNetModule
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.component.DaggerNewsComponent
-import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.DataDBModule
-import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.DataNetModule
-import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.NewsModule
-import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.ViewModelModule
+import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.*
 import com.github.kornilovmikhail.mvvmandroidproject.model.News
 import com.github.kornilovmikhail.mvvmandroidproject.utils.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_news_list.*
@@ -37,7 +35,6 @@ class NewsListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         DaggerNewsComponent.builder()
             .appComponent(App.getAppComponents())
-            .dataNetModule(DataNetModule())
             .dataDBModule(DataDBModule())
             .newsModule(NewsModule())
             .viewModelModule(ViewModelModule())
