@@ -1,11 +1,10 @@
-package com.github.kornilovmikhail.mvvmandroidproject.di.screens.module
+package com.github.kornilovmikhail.mvvmandroidproject.di.application.module
 
 import android.app.Application
 import androidx.room.Room
 import com.github.kornilovmikhail.mvvmandroidproject.data.local.AbstractNewsDatabase
 import com.github.kornilovmikhail.mvvmandroidproject.data.local.dao.NewsDao
-import com.github.kornilovmikhail.mvvmandroidproject.data.repository.NewsLocalRepository
-import com.github.kornilovmikhail.mvvmandroidproject.di.screens.scope.NewsScope
+import com.github.kornilovmikhail.mvvmandroidproject.di.application.scope.ApplicationScope
 import dagger.Module
 import dagger.Provides
 
@@ -16,7 +15,7 @@ class DataDBModule {
     }
 
     @Provides
-    @NewsScope
+    @ApplicationScope
     fun provideNewsDatabase(app: Application): AbstractNewsDatabase = Room.databaseBuilder(
         app,
         AbstractNewsDatabase::class.java,
@@ -24,10 +23,6 @@ class DataDBModule {
     ).build()
 
     @Provides
-    @NewsScope
+    @ApplicationScope
     fun provideNewsDao(database: AbstractNewsDatabase): NewsDao = database.newsDao()
-
-    @Provides
-    @NewsScope
-    fun provideNewsLocalRepository(newsDao: NewsDao): NewsLocalRepository = NewsLocalRepository(newsDao)
 }

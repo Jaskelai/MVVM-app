@@ -11,7 +11,7 @@ import dagger.Component
 @NewsScope
 @Component(
     dependencies = [AppComponent::class],
-    modules = [NewsModule::class, ViewModelModule::class, DataDBModule::class]
+    modules = [NewsModule::class, ViewModelModule::class]
 )
 interface NewsComponent {
     fun inject(mainActivity: MainActivity)

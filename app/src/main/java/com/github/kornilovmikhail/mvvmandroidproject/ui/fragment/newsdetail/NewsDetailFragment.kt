@@ -10,9 +10,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.github.kornilovmikhail.mvvmandroidproject.App
-
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.component.DaggerNewsComponent
-import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.DataDBModule
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.NewsModule
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.ViewModelModule
 import com.github.kornilovmikhail.mvvmandroidproject.utils.ViewModelFactory
@@ -46,7 +44,6 @@ class NewsDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         DaggerNewsComponent.builder()
             .appComponent(App.getAppComponents())
-            .dataDBModule(DataDBModule())
             .newsModule(NewsModule())
             .viewModelModule(ViewModelModule())
             .build()
@@ -71,11 +68,9 @@ class NewsDetailFragment : Fragment() {
     private fun observeNewsDetailData() {
         newsDetailViewModel?.newsLiveData?.observe(this, Observer {
             tv_detail_description.text = it.description
-            activity?.let { activity ->
-                Picasso.get()
-                    .load(it.urlToImage)
-                    .into(iv_details_image)
-            }
+            Picasso.get()
+                .load(it.urlToImage)
+                .into(iv_details_image)
         })
     }
 

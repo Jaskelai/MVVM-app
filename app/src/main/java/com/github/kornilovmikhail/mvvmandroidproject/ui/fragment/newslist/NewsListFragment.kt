@@ -10,10 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.kornilovmikhail.mvvmandroidproject.App
-
 import com.github.kornilovmikhail.mvvmandroidproject.R
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.component.DaggerNewsComponent
-import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.DataDBModule
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.NewsModule
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.ViewModelModule
 import com.github.kornilovmikhail.mvvmandroidproject.model.News
@@ -34,7 +32,6 @@ class NewsListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         DaggerNewsComponent.builder()
             .appComponent(App.getAppComponents())
-            .dataDBModule(DataDBModule())
             .newsModule(NewsModule())
             .viewModelModule(ViewModelModule())
             .build()

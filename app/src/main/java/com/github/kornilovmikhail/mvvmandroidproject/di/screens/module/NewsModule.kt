@@ -1,5 +1,6 @@
 package com.github.kornilovmikhail.mvvmandroidproject.di.screens.module
 
+import com.github.kornilovmikhail.mvvmandroidproject.data.local.dao.NewsDao
 import com.github.kornilovmikhail.mvvmandroidproject.data.network.NewsApi
 import com.github.kornilovmikhail.mvvmandroidproject.data.repository.NewsLocalRepository
 import com.github.kornilovmikhail.mvvmandroidproject.data.repository.NewsNetworkRepository
@@ -21,6 +22,10 @@ class NewsModule {
     @Provides
     @NewsScope
     fun provideNewsNetworkRepository(newsApi: NewsApi): NewsNetworkRepository = NewsNetworkRepository(newsApi)
+
+    @Provides
+    @NewsScope
+    fun provideNewsLocalRepository(newsDao: NewsDao): NewsLocalRepository = NewsLocalRepository(newsDao)
 
     @Provides
     @NewsScope
