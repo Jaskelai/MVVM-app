@@ -16,6 +16,7 @@ import com.github.kornilovmikhail.mvvmandroidproject.di.screens.component.Dagger
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.NewsModule
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.ViewModelModule
 import com.github.kornilovmikhail.mvvmandroidproject.model.News
+import com.github.kornilovmikhail.mvvmandroidproject.ui.fragment.newsdetail.NewsDetailFragment
 import com.github.kornilovmikhail.mvvmandroidproject.utils.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_news_list.*
 import javax.inject.Inject
@@ -27,7 +28,7 @@ class NewsListFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelFactory<NewsListViewModel>
 
     companion object {
-        fun newInstance(): NewsListFragment = NewsListFragment()
+        const val KEY_NEWS_ID = "id_news"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,6 +87,13 @@ class NewsListFragment : Fragment() {
     }
 
     private val newsClickListener: (News) -> Unit = {
-        newsListViewModel.openNews(activity?.supportFragmentManager, it.id)
+        val args = Bundle()
+        args.putInt(KEY_NEWS_ID, it.id)
+        val newsDetailFragment = NewsDetailFragment()
+        newsDetailFragment.arguments = args
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.replace(R.id.main_container, newsDetailFragment)
+            ?.addToBackStack(null)
+            ?.commit()
     }
 }

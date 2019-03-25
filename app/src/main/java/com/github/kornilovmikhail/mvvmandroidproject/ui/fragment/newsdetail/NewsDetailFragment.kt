@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.github.kornilovmikhail.mvvmandroidproject.App
@@ -17,29 +16,13 @@ import com.github.kornilovmikhail.mvvmandroidproject.utils.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_news_details.*
 import javax.inject.Inject
 import com.github.kornilovmikhail.mvvmandroidproject.R
+import com.github.kornilovmikhail.mvvmandroidproject.ui.fragment.newslist.NewsListFragment.Companion.KEY_NEWS_ID
 import com.squareup.picasso.Picasso
 
 class NewsDetailFragment : Fragment() {
     private var newsDetailViewModel: NewsDetailViewModel? = null
     @Inject
     lateinit var viewModelFactory: ViewModelFactory<NewsDetailViewModel>
-
-    companion object {
-        private const val KEY_NEWS_ID = "id_news"
-
-        fun start(supportFragmentManager: FragmentManager?, id: Int) {
-            val args = Bundle()
-            args.putInt(KEY_NEWS_ID, id)
-            val instance = newInstance()
-            instance.arguments = args
-            supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.main_container, instance)
-                ?.addToBackStack(null)
-                ?.commit()
-        }
-
-        fun newInstance(): NewsDetailFragment = NewsDetailFragment()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         DaggerNewsComponent.builder()

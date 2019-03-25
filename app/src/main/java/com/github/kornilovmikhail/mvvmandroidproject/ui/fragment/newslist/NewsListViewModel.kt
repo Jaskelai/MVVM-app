@@ -57,8 +57,4 @@ class NewsListViewModel(private val topNewsInteractor: TopNewsInteractor) : View
     override fun onCleared() {
         disposable?.dispose()
     }
-
-    fun openNews(supportFragmentManager: FragmentManager?, id: Int) {
-        NewsDetailFragment.start(supportFragmentManager, id)
-    }
 }

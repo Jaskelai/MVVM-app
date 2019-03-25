@@ -3,9 +3,9 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!--<data>-->
-        <!--<variable-->
-                <!--name="viewModel"-->
-                <!--type="com.github.kornilovmikhail.mvvmandroidproject.ui.fragment.newsdetail.NewsDetailViewModel"/>-->
+    <!--<variable-->
+    <!--name="viewModel"-->
+    <!--type="com.github.kornilovmikhail.mvvmandroidproject.ui.fragment.newsdetail.NewsDetailViewModel"/>-->
     <!--</data>-->
 
     <FrameLayout
@@ -19,6 +19,7 @@
                     android:id="@+id/iv_details_image"
                     android:layout_width="300dp"
                     android:layout_height="300dp"
+                    android:transitionName="@string/transaction_img_news"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
