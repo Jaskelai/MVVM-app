@@ -1,6 +1,7 @@
 package com.github.kornilovmikhail.mvvmandroidproject.ui.fragment.newsdetail
 
 import android.view.View
+import androidx.databinding.BindingAdapter
 import androidx.lifecycle.*
 import com.github.kornilovmikhail.mvvmandroidproject.interactor.TopNewsInteractor
 import com.github.kornilovmikhail.mvvmandroidproject.model.News
@@ -25,6 +26,7 @@ class NewsDetailViewModel(private val topNewsInteractor: TopNewsInteractor) : Vi
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onSuccess = {
+
                     newsLiveData.value = it
                 },
                 onError = {
@@ -32,4 +34,5 @@ class NewsDetailViewModel(private val topNewsInteractor: TopNewsInteractor) : Vi
                 }
             )
     }
+
 }

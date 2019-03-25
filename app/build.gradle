@@ -23,6 +23,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 detekt {
@@ -44,12 +48,13 @@ detekt {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    def support_version = '1.1.0-alpha03'
+    def support_version = "1.1.0-alpha03"
     def mockito_version = "2.25.0"
     def retrofit2_version = "2.5.0"
-    def room_version = '2.1.0-alpha05'
+    def room_version = "2.1.0-alpha06"
     def dagger_version = "2.21"
-    def arch_version = '2.0.0-beta01'
+    def arch_version = "2.0.0-beta01"
+    def picasso_version = "2.71828"
     //kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     //support libraries
@@ -84,4 +89,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime:${arch_version}"
     implementation "androidx.lifecycle:lifecycle-extensions:${arch_version}"
     kapt "androidx.lifecycle:lifecycle-compiler:${arch_version}"
+    //Picasso
+    implementation "com.squareup.picasso:picasso:${picasso_version}"
 }

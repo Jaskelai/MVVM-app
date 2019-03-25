@@ -15,7 +15,6 @@ import com.github.kornilovmikhail.mvvmandroidproject.App
 import com.github.kornilovmikhail.mvvmandroidproject.R
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.component.DaggerNewsComponent
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.DataDBModule
-import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.DataNetModule
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.NewsModule
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.ViewModelModule
 import com.github.kornilovmikhail.mvvmandroidproject.utils.ViewModelFactory
@@ -24,7 +23,7 @@ import javax.inject.Inject
 
 
 class NewsDetailFragment : Fragment() {
-    private lateinit var newsDetailViewModel: NewsDetailViewModel
+    private var newsDetailViewModel: NewsDetailViewModel? = null
     @Inject
     lateinit var viewModelFactory: ViewModelFactory<NewsDetailViewModel>
 
@@ -50,7 +49,6 @@ class NewsDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         DaggerNewsComponent.builder()
             .appComponent(App.getAppComponents())
-            .dataNetModule(DataNetModule())
             .dataDBModule(DataDBModule())
             .newsModule(NewsModule())
             .viewModelModule(ViewModelModule())
@@ -70,26 +68,26 @@ class NewsDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         newsDetailViewModel = ViewModelProviders.of(this, viewModelFactory).get(NewsDetailViewModel::class.java)
-        newsDetailViewModel.getNews(arguments?.get(KEY_NEWS_ID) as Int)
+        newsDetailViewModel?.getNews(arguments?.get(KEY_NEWS_ID) as Int)
         observeNewsDetailData()
         observeInProgress()
         observeIsSuccess()
     }
 
     private fun observeNewsDetailData() {
-        newsDetailViewModel.newsLiveData.observe(this, Observer {
+        newsDetailViewModel?.newsLiveData?.observe(this, Observer {
             tv_detail_description.text = it.description
         })
     }
 
     private fun observeInProgress() {
-        newsDetailViewModel.inProgress.observe(
+        newsDetailViewModel?.inProgress?.observe(
             this,
             Observer { it?.let { details_progressBar.visibility = it } })
     }
 
     private fun observeIsSuccess() {
-        newsDetailViewModel.isSuccess.observe(this, Observer {
+        newsDetailViewModel?.isSuccess?.observe(this, Observer {
             if (it) {
                 makeToast(getString(R.string.server_load_success))
             } else {
