@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.kornilovmikhail.mvvmandroidproject.App
 import com.github.kornilovmikhail.mvvmandroidproject.R
@@ -58,6 +59,7 @@ class NewsListFragment : Fragment() {
             if (rv_list_news.adapter == null) {
                 rv_list_news.adapter = NewsListAdapter(newsClickListener)
                 rv_list_news.layoutManager = LinearLayoutManager(context)
+                rv_list_news.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             }
             (rv_list_news.adapter as NewsListAdapter).submitList(it)
         })

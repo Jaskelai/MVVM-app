@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.kornilovmikhail.mvvmandroidproject.R
 import com.github.kornilovmikhail.mvvmandroidproject.model.News
+import com.squareup.picasso.Picasso
 import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.news_list_item.*
 import kotlinx.android.synthetic.main.news_list_item.view.*
 
 class NewsListAdapter(
@@ -39,6 +41,7 @@ class NewsListAdapter(
                 tv_list_item_name.text = news.title
                 setOnClickListener { clickListener(news) }
             }
+            Picasso.get().load(news.urlToImage).into(iv_main_image)
         }
     }
 }
