@@ -24,10 +24,6 @@ class NewsListAdapter(
         holder.bind(getItem(position), clickListener)
     }
 
-    override fun submitList(list: List<News>?) {
-        super.submitList(if (list != null) ArrayList(list) else null)
-    }
-
     class NewsDiffCallback : DiffUtil.ItemCallback<News>() {
         override fun areItemsTheSame(oldItem: News, newItem: News): Boolean = oldItem.title == newItem.title
 
