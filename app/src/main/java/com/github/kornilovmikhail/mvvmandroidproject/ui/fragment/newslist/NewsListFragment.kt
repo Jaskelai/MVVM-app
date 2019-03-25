@@ -1,6 +1,7 @@
 package com.github.kornilovmikhail.mvvmandroidproject.ui.fragment.newslist
 
 import android.os.Bundle
+import android.transition.*
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +12,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.kornilovmikhail.mvvmandroidproject.App
-import com.github.kornilovmikhail.mvvmandroidproject.R
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.component.DaggerNewsComponent
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.NewsModule
 import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.ViewModelModule
@@ -19,8 +19,11 @@ import com.github.kornilovmikhail.mvvmandroidproject.model.News
 import com.github.kornilovmikhail.mvvmandroidproject.ui.fragment.newsdetail.NewsDetailFragment
 import com.github.kornilovmikhail.mvvmandroidproject.utils.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_news_list.*
+import kotlinx.android.synthetic.main.news_list_item.*
 import javax.inject.Inject
 import kotlin.properties.Delegates
+import com.github.kornilovmikhail.mvvmandroidproject.R
+
 
 class NewsListFragment : Fragment() {
     private var newsListViewModel: NewsListViewModel by Delegates.notNull()
@@ -90,10 +93,23 @@ class NewsListFragment : Fragment() {
         val args = Bundle()
         args.putInt(KEY_NEWS_ID, it.id)
         val newsDetailFragment = NewsDetailFragment()
+        setupTransitionAnimation(newsDetailFragment)
         newsDetailFragment.arguments = args
         activity?.supportFragmentManager?.beginTransaction()
+            ?.addSharedElement(iv_main_image, getString(R.string.transaction_img_news))
             ?.replace(R.id.main_container, newsDetailFragment)
             ?.addToBackStack(null)
             ?.commit()
+    }
+
+    private fun setupTransitionAnimation(fragment: Fragment) {
+        val transitionSet = TransitionSet().setOrdering(TransitionSet.ORDERING_TOGETHER)
+            .addTransition(ChangeBounds())
+            .addTransition(ChangeTransform())
+            .addTransition(ChangeImageTransform())
+        fragment.sharedElementEnterTransition = transitionSet
+        fragment.sharedElementReturnTransition = transitionSet
+        fragment.enterTransition = Fade()
+        fragment.exitTransition = Fade()
     }
 }
