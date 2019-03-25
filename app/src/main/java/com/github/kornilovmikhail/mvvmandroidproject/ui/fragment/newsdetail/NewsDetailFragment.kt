@@ -1,6 +1,5 @@
 package com.github.kornilovmikhail.mvvmandroidproject.ui.fragment.newsdetail
 
-
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -19,10 +18,8 @@ import com.github.kornilovmikhail.mvvmandroidproject.di.screens.module.ViewModel
 import com.github.kornilovmikhail.mvvmandroidproject.utils.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_news_details.*
 import javax.inject.Inject
-import androidx.databinding.DataBindingUtil
 import com.github.kornilovmikhail.mvvmandroidproject.R
 import com.squareup.picasso.Picasso
-
 
 class NewsDetailFragment : Fragment() {
     private var newsDetailViewModel: NewsDetailViewModel? = null
@@ -43,9 +40,7 @@ class NewsDetailFragment : Fragment() {
                 ?.commit()
         }
 
-        fun newInstance(): NewsDetailFragment {
-            return NewsDetailFragment()
-        }
+        fun newInstance(): NewsDetailFragment = NewsDetailFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,9 +57,7 @@ class NewsDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_news_details, container, false)
-    }
+    ): View? = inflater.inflate(R.layout.fragment_news_details, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

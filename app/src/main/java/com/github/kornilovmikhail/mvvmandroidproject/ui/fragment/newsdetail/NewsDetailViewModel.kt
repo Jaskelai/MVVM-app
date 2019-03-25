@@ -1,8 +1,6 @@
 package com.github.kornilovmikhail.mvvmandroidproject.ui.fragment.newsdetail
 
 import android.view.View
-import android.widget.ImageView
-import androidx.databinding.BindingAdapter
 import androidx.lifecycle.*
 import com.github.kornilovmikhail.mvvmandroidproject.interactor.TopNewsInteractor
 import com.github.kornilovmikhail.mvvmandroidproject.model.News

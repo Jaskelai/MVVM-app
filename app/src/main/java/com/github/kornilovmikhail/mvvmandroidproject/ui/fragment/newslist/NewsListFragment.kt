@@ -1,6 +1,5 @@
 package com.github.kornilovmikhail.mvvmandroidproject.ui.fragment.newslist
 
-
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -29,9 +28,7 @@ class NewsListFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelFactory<NewsListViewModel>
 
     companion object {
-        fun newInstance(): NewsListFragment {
-            return NewsListFragment()
-        }
+        fun newInstance(): NewsListFragment = NewsListFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,9 +45,7 @@ class NewsListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_news_list, container, false)
-    }
+    ): View? = inflater.inflate(R.layout.fragment_news_list, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

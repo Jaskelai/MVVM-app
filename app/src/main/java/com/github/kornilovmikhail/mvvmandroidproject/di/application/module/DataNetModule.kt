@@ -2,7 +2,6 @@ package com.github.kornilovmikhail.mvvmandroidproject.di.application.module
 
 import com.github.kornilovmikhail.mvvmandroidproject.data.network.NewsApi
 import com.github.kornilovmikhail.mvvmandroidproject.data.network.interceptor.ApiKeyInterceptor
-import com.github.kornilovmikhail.mvvmandroidproject.data.repository.NewsNetworkRepository
 import com.github.kornilovmikhail.mvvmandroidproject.di.application.scope.ApplicationScope
 import dagger.Module
 import dagger.Provides

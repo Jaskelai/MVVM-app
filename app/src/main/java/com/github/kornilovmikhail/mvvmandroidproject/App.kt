@@ -8,7 +8,6 @@ import com.github.kornilovmikhail.mvvmandroidproject.di.application.module.DataN
 import com.github.kornilovmikhail.mvvmandroidproject.di.application.module.PicassoModule
 import com.squareup.picasso.Picasso
 
-
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
