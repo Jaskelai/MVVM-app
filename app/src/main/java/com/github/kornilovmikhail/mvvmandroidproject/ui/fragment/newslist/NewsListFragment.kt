@@ -26,8 +26,8 @@ import com.github.kornilovmikhail.mvvmandroidproject.R
 
 class NewsListFragment : Fragment() {
     private var newsListViewModel: NewsListViewModel by Delegates.notNull()
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory<NewsListViewModel>
+
+    @Inject lateinit var viewModelFactory: ViewModelFactory<NewsListViewModel>
 
     companion object {
         const val KEY_NEWS_ID = "id_news"
@@ -57,36 +57,41 @@ class NewsListFragment : Fragment() {
         lifecycle.addObserver(newsListViewModel)
     }
 
+    private fun initAdapter(){
+        if (rv_list_news.adapter == null) {
+            rv_list_news.adapter = NewsListAdapter(newsClickListener)
+            rv_list_news.layoutManager = LinearLayoutManager(context)
+            rv_list_news.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        }
+    }
+
     private fun observeNewsLiveData() {
         newsListViewModel.newsLiveData.observe(this, Observer {
-            if (rv_list_news.adapter == null) {
-                rv_list_news.adapter = NewsListAdapter(newsClickListener)
-                rv_list_news.layoutManager = LinearLayoutManager(context)
-                rv_list_news.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-            }
-            (rv_list_news.adapter as NewsListAdapter).submitList(it)
+            initAdapter()
+            rv_list_news.adapter.submitList(it)
         })
     }
 
     private fun observeInProgress() {
-        newsListViewModel.inProgressLiveData.observe(
-            this,
-            Observer { it?.let { list_progressBar.visibility = if (it) View.VISIBLE else View.GONE } })
+        newsListViewModel.inProgressLiveData.observe(this, Observer {
+            it?.let { list_progressBar.visibility =
+                if (it) View.VISIBLE else View.GONE } })
     }
 
     private fun observeIsSuccess() {
         newsListViewModel.isSuccessLiveData.observe(this, Observer {
-            if (it) {
-                makeToast(getString(R.string.server_load_success))
-            } else {
-                makeToast(getString(R.string.server_load_error))
-            }
+            makeToast(
+                if (it) {
+                    getString(R.string.server_load_success)
+                } else{
+                    getString(R.string.server_load_error)
+                }
+            )
         })
     }
 
-    private fun makeToast(text: String) {
+    private fun makeToast(text: String) =
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
-    }
 
     private val newsClickListener: (News) -> Unit = {
         val args = Bundle()

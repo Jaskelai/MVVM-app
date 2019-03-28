@@ -58,22 +58,23 @@ class NewsDetailFragment : Fragment() {
     }
 
     private fun observeInProgress() {
-        newsDetailViewModel?.inProgressLiveData?.observe(
-            this,
-            Observer { it?.let { details_progressBar.visibility = if (it) View.VISIBLE else View.GONE } })
+        newsDetailViewModel?.inProgressLiveData?.observe(this, Observer {
+                it?.let { details_progressBar.visibility =
+                    if (it) View.VISIBLE else View.GONE } })
     }
 
     private fun observeIsSuccess() {
         newsDetailViewModel?.isSuccessLiveData?.observe(this, Observer {
-            if (it) {
-                makeToast(getString(R.string.server_load_success))
-            } else {
-                makeToast(getString(R.string.server_load_error))
-            }
+            makeToast(
+                if (it) {
+                    getString(R.string.server_load_success)
+                } else {
+                    getString(R.string.server_load_error)
+                }
+            )
         })
     }
 
-    private fun makeToast(text: String) {
+    private fun makeToast(text: String) =
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
-    }
 }

@@ -7,6 +7,7 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 
 class TopNewsInteractor(private val newsRepository: NewsRepository) {
+
     fun getTopNews(): Single<List<News>> = newsRepository.getTopNews()
         .subscribeOn(Schedulers.io())
 

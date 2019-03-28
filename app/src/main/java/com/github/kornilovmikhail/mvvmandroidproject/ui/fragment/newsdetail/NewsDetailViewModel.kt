@@ -8,8 +8,8 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
 
 class NewsDetailViewModel(private val topNewsInteractor: TopNewsInteractor) : ViewModel() {
-    val newsLiveData = MutableLiveData<News>()
     private var disposable: Disposable? = null
+    val newsLiveData = MutableLiveData<News>()
     val inProgressLiveData = MutableLiveData<Boolean>()
     var isSuccessLiveData = MutableLiveData<Boolean>()
 
@@ -33,6 +33,6 @@ class NewsDetailViewModel(private val topNewsInteractor: TopNewsInteractor) : Vi
     }
 
     override fun onCleared() {
-        disposable?.dispose()
+        disposable.dispose()
     }
 }

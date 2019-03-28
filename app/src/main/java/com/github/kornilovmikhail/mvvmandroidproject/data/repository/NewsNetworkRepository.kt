@@ -6,10 +6,8 @@ import com.github.kornilovmikhail.mvvmandroidproject.model.News
 import io.reactivex.Single
 
 class NewsNetworkRepository constructor(private val newsApi: NewsApi) {
-    fun getTopNews(): Single<List<News>> {
-        return newsApi
+    fun getTopNews(): Single<List<News>>  = newsApi
             .loadTopHeadlines()
             .map { it.newsRemoteList }
             .map { it.map { mapNewsRemoteToNews(it) } }
-    }
 }
