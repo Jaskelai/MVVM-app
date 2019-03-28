@@ -58,13 +58,13 @@ class NewsDetailFragment : Fragment() {
     }
 
     private fun observeInProgress() {
-        newsDetailViewModel?.inProgress?.observe(
+        newsDetailViewModel?.inProgressLiveData?.observe(
             this,
-            Observer { it?.let { details_progressBar.visibility = it } })
+            Observer { it?.let { details_progressBar.visibility = if (it) View.VISIBLE else View.GONE } })
     }
 
     private fun observeIsSuccess() {
-        newsDetailViewModel?.isSuccess?.observe(this, Observer {
+        newsDetailViewModel?.isSuccessLiveData?.observe(this, Observer {
             if (it) {
                 makeToast(getString(R.string.server_load_success))
             } else {

@@ -1,6 +1,5 @@
 package com.github.kornilovmikhail.mvvmandroidproject.ui.fragment.newsdetail
 
-import android.view.View
 import androidx.lifecycle.*
 import com.github.kornilovmikhail.mvvmandroidproject.interactor.TopNewsInteractor
 import com.github.kornilovmikhail.mvvmandroidproject.model.News
@@ -11,16 +10,16 @@ import io.reactivex.rxkotlin.subscribeBy
 class NewsDetailViewModel(private val topNewsInteractor: TopNewsInteractor) : ViewModel() {
     val newsLiveData = MutableLiveData<News>()
     private var disposable: Disposable? = null
-    val inProgress = MutableLiveData<Int>()
-    var isSuccess = MutableLiveData<Boolean>()
+    val inProgressLiveData = MutableLiveData<Boolean>()
+    var isSuccessLiveData = MutableLiveData<Boolean>()
 
     fun getNews(id: Int) {
         disposable = topNewsInteractor.getNews(id)
             .doOnSubscribe {
-                inProgress.postValue(View.VISIBLE)
+                inProgressLiveData.postValue(true)
             }
             .doAfterTerminate {
-                inProgress.postValue(View.INVISIBLE)
+                inProgressLiveData.postValue(false)
             }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
@@ -28,7 +27,7 @@ class NewsDetailViewModel(private val topNewsInteractor: TopNewsInteractor) : Vi
                     newsLiveData.value = it
                 },
                 onError = {
-                    isSuccess.value = false
+                    isSuccessLiveData.value = false
                 }
             )
     }

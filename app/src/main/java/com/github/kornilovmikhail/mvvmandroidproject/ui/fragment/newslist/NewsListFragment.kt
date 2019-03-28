@@ -71,7 +71,7 @@ class NewsListFragment : Fragment() {
     private fun observeInProgress() {
         newsListViewModel.inProgressLiveData.observe(
             this,
-            Observer { it?.let { list_progressBar.visibility = it } })
+            Observer { it?.let { list_progressBar.visibility = if (it) View.VISIBLE else View.GONE } })
     }
 
     private fun observeIsSuccess() {
