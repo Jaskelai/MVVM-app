@@ -5,7 +5,6 @@ import com.github.kornilovmikhail.mvvmandroidproject.model.News
 import io.reactivex.Completable
 import io.reactivex.Single
 
-
 class TopNewsInteractor(private val newsRepository: NewsRepository) {
 
     fun getTopNews(): Single<List<News>> =
