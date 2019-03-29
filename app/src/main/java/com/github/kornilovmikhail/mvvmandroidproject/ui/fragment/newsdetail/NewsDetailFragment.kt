@@ -59,8 +59,11 @@ class NewsDetailFragment : Fragment() {
 
     private fun observeInProgress() {
         newsDetailViewModel?.inProgressLiveData?.observe(this, Observer {
-                it?.let { details_progressBar.visibility =
-                    if (it) View.VISIBLE else View.GONE } })
+            it?.let {
+                details_progressBar.visibility =
+                    if (it) View.VISIBLE else View.GONE
+            }
+        })
     }
 
     private fun observeIsSuccess() {

@@ -8,10 +8,10 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
 
 class NewsListViewModel(private val topNewsInteractor: TopNewsInteractor) : ViewModel(), LifecycleObserver {
+    private var disposable: Disposable? = null
     val newsLiveData = MutableLiveData<List<News>>()
     val inProgressLiveData = MutableLiveData<Boolean>()
     var isSuccessLiveData = MutableLiveData<Boolean>()
-    private var disposable: Disposable? = null
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun getNewsList() {
@@ -25,11 +25,7 @@ class NewsListViewModel(private val topNewsInteractor: TopNewsInteractor) : View
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onSuccess = {
-                    topNewsInteractor.deleteTopNews().subscribe {
-                        topNewsInteractor.cacheTopNews(it).subscribe {
-                            getNewsWithId()
-                        }
-                    }
+                    newsLiveData.value = it
                     isSuccessLiveData.value = true
                 },
                 onError = {
@@ -38,19 +34,8 @@ class NewsListViewModel(private val topNewsInteractor: TopNewsInteractor) : View
             )
     }
 
-    private fun getNewsWithId() {
-        disposable = topNewsInteractor.getTopNews()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeBy(
-                onSuccess = {
-                    newsLiveData.value = it
-                },
-                onError = {
-                    isSuccessLiveData.value = false
-                }
-            )
+    override fun onCleared() {
+        super.onCleared()
+        disposable?.dispose()
     }
-
-    override fun onCleared() =
-        disposable.dispose()
 }

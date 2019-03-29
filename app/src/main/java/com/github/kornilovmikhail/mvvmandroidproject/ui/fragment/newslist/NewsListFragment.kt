@@ -26,8 +26,8 @@ import com.github.kornilovmikhail.mvvmandroidproject.R
 
 class NewsListFragment : Fragment() {
     private var newsListViewModel: NewsListViewModel by Delegates.notNull()
-
-    @Inject lateinit var viewModelFactory: ViewModelFactory<NewsListViewModel>
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory<NewsListViewModel>
 
     companion object {
         const val KEY_NEWS_ID = "id_news"
@@ -50,6 +50,7 @@ class NewsListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initAdapter()
         newsListViewModel = ViewModelProviders.of(this, viewModelFactory).get(NewsListViewModel::class.java)
         observeNewsLiveData()
         observeInProgress()
@@ -57,7 +58,13 @@ class NewsListFragment : Fragment() {
         lifecycle.addObserver(newsListViewModel)
     }
 
-    private fun initAdapter(){
+    private fun observeNewsLiveData() {
+        newsListViewModel.newsLiveData.observe(this, Observer {
+            (rv_list_news.adapter as NewsListAdapter).submitList(it)
+        })
+    }
+
+    private fun initAdapter() {
         if (rv_list_news.adapter == null) {
             rv_list_news.adapter = NewsListAdapter(newsClickListener)
             rv_list_news.layoutManager = LinearLayoutManager(context)
@@ -65,17 +72,13 @@ class NewsListFragment : Fragment() {
         }
     }
 
-    private fun observeNewsLiveData() {
-        newsListViewModel.newsLiveData.observe(this, Observer {
-            initAdapter()
-            rv_list_news.adapter.submitList(it)
-        })
-    }
-
     private fun observeInProgress() {
         newsListViewModel.inProgressLiveData.observe(this, Observer {
-            it?.let { list_progressBar.visibility =
-                if (it) View.VISIBLE else View.GONE } })
+            it?.let {
+                list_progressBar.visibility =
+                    if (it) View.VISIBLE else View.GONE
+            }
+        })
     }
 
     private fun observeIsSuccess() {
@@ -83,7 +86,7 @@ class NewsListFragment : Fragment() {
             makeToast(
                 if (it) {
                     getString(R.string.server_load_success)
-                } else{
+                } else {
                     getString(R.string.server_load_error)
                 }
             )
@@ -111,9 +114,11 @@ class NewsListFragment : Fragment() {
             .addTransition(ChangeBounds())
             .addTransition(ChangeTransform())
             .addTransition(ChangeImageTransform())
-        fragment.sharedElementEnterTransition = transitionSet
-        fragment.sharedElementReturnTransition = transitionSet
-        fragment.enterTransition = Fade()
-        fragment.exitTransition = Fade()
+        fragment.apply {
+            sharedElementEnterTransition = transitionSet
+            sharedElementReturnTransition = transitionSet
+            enterTransition = Fade()
+            exitTransition = Fade()
+        }
     }
 }

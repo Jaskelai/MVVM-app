@@ -33,6 +33,7 @@ class NewsDetailViewModel(private val topNewsInteractor: TopNewsInteractor) : Vi
     }
 
     override fun onCleared() {
-        disposable.dispose()
+        super.onCleared()
+        disposable?.dispose()
     }
 }

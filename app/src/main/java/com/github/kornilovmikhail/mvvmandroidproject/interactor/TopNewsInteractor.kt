@@ -4,23 +4,23 @@ import com.github.kornilovmikhail.mvvmandroidproject.data.repository.NewsReposit
 import com.github.kornilovmikhail.mvvmandroidproject.model.News
 import io.reactivex.Completable
 import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
 
 class TopNewsInteractor(private val newsRepository: NewsRepository) {
 
-    fun getTopNews(): Single<List<News>> = newsRepository.getTopNews()
-        .subscribeOn(Schedulers.io())
+    fun getTopNews(): Single<List<News>> =
+        newsRepository.getTopNews().flatMap {
+            deleteTopNews().subscribe {
+                cacheTopNews(it).subscribe {
+                }
+            }
+            newsRepository.getTopNews()
+        }
 
     fun cacheTopNews(newsList: List<News>): Completable =
-        Completable.fromAction {
-            newsRepository.cacheTopNews(newsList)
-        }.subscribeOn(Schedulers.io())
+        newsRepository.cacheTopNews(newsList)
 
     fun deleteTopNews(): Completable =
-        Completable.fromAction {
-            newsRepository.deleteTopEvents()
-        }.subscribeOn(Schedulers.io())
+        newsRepository.deleteTopEvents()
 
     fun getNews(id: Int): Single<News> = newsRepository.getNewsById(id)
-        .subscribeOn(Schedulers.io())
 }
