@@ -15,8 +15,7 @@ class TopNewsInteractor(private val newsRepository: NewsRepository) {
     suspend fun cacheTopNews(newsList: List<News>) =
         newsRepository.cacheTopNews(newsList)
 
-    suspend fun deleteTopNews() =
-        newsRepository.deleteTopEvents()
+    suspend fun deleteTopNews() = newsRepository.deleteTopEvents()
 
     suspend fun getNews(id: Int): News = newsRepository.getNewsById(id)
 }
