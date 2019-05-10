@@ -1,39 +1,40 @@
 package com.github.kornilovmikhail.mvvmandroidproject.ui.fragment.newsdetail
 
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.github.kornilovmikhail.mvvmandroidproject.interactor.TopNewsInteractor
 import com.github.kornilovmikhail.mvvmandroidproject.model.News
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 class NewsDetailViewModel(private val topNewsInteractor: TopNewsInteractor) : ViewModel() {
-    private var disposable: Disposable? = null
     val newsLiveData = MutableLiveData<News>()
     val inProgressLiveData = MutableLiveData<Boolean>()
     var isSuccessLiveData = MutableLiveData<Boolean>()
 
-    fun getNews(id: Int) {
-        disposable = topNewsInteractor.getNews(id)
-            .doOnSubscribe {
-                inProgressLiveData.postValue(true)
+    private var job = SupervisorJob()
+    private val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+
+    suspend fun getNews(id: Int) {
+        val handler = CoroutineExceptionHandler { _, _ ->
+            isSuccessLiveData.value = false
+        }
+        inProgressLiveData.postValue(true)
+        CoroutineScope(coroutineContext).launch(handler) {
+            val news = withContext(Dispatchers.IO) {
+                topNewsInteractor.getNews(id)
             }
-            .doAfterTerminate {
-                inProgressLiveData.postValue(false)
+            withContext(Dispatchers.Main) {
+                newsLiveData.value = news
             }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeBy(
-                onSuccess = {
-                    newsLiveData.value = it
-                },
-                onError = {
-                    isSuccessLiveData.value = false
-                }
-            )
+        }.invokeOnCompletion {
+            inProgressLiveData.postValue(false)
+        }
     }
 
     override fun onCleared() {
         super.onCleared()
-        disposable?.dispose()
+        coroutineContext.cancelChildren()
     }
 }

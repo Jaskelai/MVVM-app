@@ -1,8 +1,6 @@
 package com.github.kornilovmikhail.mvvmandroidproject.data.repository
 
 import com.github.kornilovmikhail.mvvmandroidproject.model.News
-import io.reactivex.Completable
-import io.reactivex.Single
 
 class NewsRepository(
     private val newsNetworkRepository: NewsNetworkRepository,
@@ -11,7 +9,7 @@ class NewsRepository(
 
     private var isFirst = true
 
-    fun getTopNews(): Single<List<News>> =
+    suspend fun getTopNews(): List<News> =
         if (isFirst) {
             isFirst = false
             newsNetworkRepository.getTopNews()
@@ -19,10 +17,9 @@ class NewsRepository(
             newsLocalRepository.getTopNews()
         }
 
-    fun getNewsById(id: Int): Single<News> = newsLocalRepository.findNewsById(id)
+    suspend fun getNewsById(id: Int): News = newsLocalRepository.findNewsById(id)
 
-    fun cacheTopNews(newsList: List<News>): Completable =
-        newsLocalRepository.cacheTopNews(newsList)
+    suspend fun cacheTopNews(newsList: List<News>) = newsLocalRepository.cacheTopNews(newsList)
 
-    fun deleteTopEvents(): Completable = newsLocalRepository.deleteTopNews()
+    suspend fun deleteTopEvents() = newsLocalRepository.deleteTopNews()
 }

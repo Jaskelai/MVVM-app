@@ -5,19 +5,18 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.github.kornilovmikhail.mvvmandroidproject.data.local.model.NewsDB
-import io.reactivex.Single
 
 @Dao
 interface NewsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertNewsList(news: List<NewsDB>)
+    suspend fun insertNewsList(news: List<NewsDB>)
 
     @Query("SELECT * FROM news_data")
-    fun getNewsList(): Single<List<NewsDB>>
+    suspend fun getNewsList(): List<NewsDB>
 
     @Query("SELECT * FROM news_data WHERE id = :id")
-    fun findNewsById(id: Int): Single<NewsDB>
+    suspend fun findNewsById(id: Int): NewsDB
 
     @Query("DELETE FROM news_data")
-    fun deleteAllNews()
+    suspend fun deleteAllNews()
 }

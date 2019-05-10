@@ -3,11 +3,11 @@ package com.github.kornilovmikhail.mvvmandroidproject.di.application.module
 import com.github.kornilovmikhail.mvvmandroidproject.data.network.NewsApi
 import com.github.kornilovmikhail.mvvmandroidproject.data.network.interceptor.ApiKeyInterceptor
 import com.github.kornilovmikhail.mvvmandroidproject.di.application.scope.ApplicationScope
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
@@ -20,13 +20,13 @@ class DataNetModule {
     @ApplicationScope
     fun provideRetrofit(
         gsonConverterFactory: GsonConverterFactory,
-        rxJava2CallAdapterFactory: RxJava2CallAdapterFactory,
+        coroutineCallAdapterFactory: CoroutineCallAdapterFactory,
         okHttpClient: OkHttpClient
     ): Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .client(okHttpClient)
         .addConverterFactory(gsonConverterFactory)
-        .addCallAdapterFactory(rxJava2CallAdapterFactory)
+        .addCallAdapterFactory(coroutineCallAdapterFactory)
         .build()
 
     @Provides
@@ -48,5 +48,5 @@ class DataNetModule {
 
     @Provides
     @ApplicationScope
-    fun provideRxJava2CallAdapterFactory(): RxJava2CallAdapterFactory = RxJava2CallAdapterFactory.create()
+    fun provideCoroutineCallAdapterFactory() : CoroutineCallAdapterFactory = CoroutineCallAdapterFactory()
 }
